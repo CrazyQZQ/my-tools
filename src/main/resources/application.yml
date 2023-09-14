@@ -1,0 +1,7 @@
+server:
+  port: 8080
+minio:
+  endpoint: http://117.50.187.26:9000
+  bucketName: my-tools
+  accessKey: utSiUL7UEobU5pHBbdNf
+  secretKey: U5GoQYizVhWpU0WLmQWEQClFNCpuuRzurateXpDS
