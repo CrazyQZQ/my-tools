@@ -34,8 +34,6 @@ import java.nio.file.Files;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PdfTransferService {
 
-
-
     @Autowired
     private FileProcessHandler fileProcessHandler;
 
@@ -55,9 +53,9 @@ public class PdfTransferService {
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
             contentStream.drawImage(pdImage, 0, 0);
             contentStream.close();
-            document.save(getTempPdfPath());
+            document.save(pdfPath);
             document.close();
-            File tempFile = new File(getTempPdfPath());
+            File tempFile = new File(pdfPath);
             String s = RandomUtil.randomString(12);
             String uploadUrl = fileProcessHandler.upload(tempFile, FileConstants.PDF_SUB_PATH, s + ".pdf");
             Files.delete(tempFile.toPath());
@@ -97,13 +95,5 @@ public class PdfTransferService {
      */
     private String getTempPdfPath() {
         return CommonConstant.TEMP_FOLD + "/" + RandomUtil.randomString(12) + "temp.pdf";
-    }
-
-    public static void main(String[] args) throws Exception {
-// 加载 Word 文档
-        Document doc = new Document("temp/1.docx");
-
-        // 保存为 PDF 文件
-        SaveOutputParameters save = doc.save("temp/1.pdf", SaveFormat.PDF);
     }
 }
