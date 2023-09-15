@@ -46,13 +46,9 @@ public class MinIoFileProcessHandler implements FileProcessHandler {
 
     public MinioClient getMinioClient() {
         if (minioClient == null) {
-//            minioClient = MinioClient.builder()
-//                    .endpoint(endpoint)
-//                    .credentials(accessKey, secretKey)
-//                    .build();
             minioClient = MinioClient.builder()
-                    .endpoint("http://117.50.187.26:9000")
-                    .credentials("utSiUL7UEobU5pHBbdNf", "U5GoQYizVhWpU0WLmQWEQClFNCpuuRzurateXpDS")
+                    .endpoint(endpoint)
+                    .credentials(accessKey, secretKey)
                     .build();
         }
         return minioClient;

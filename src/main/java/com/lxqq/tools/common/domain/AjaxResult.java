@@ -22,6 +22,10 @@ public class AjaxResult {
      * 数据对象
      */
     private Object data;
+    /**
+     * 是否成功
+     */
+    private boolean success;
 
     /**
      * 初始化一个新创建的 AjaxResult 对象，使其表示一个空消息。
@@ -54,6 +58,20 @@ public class AjaxResult {
     }
 
     /**
+     * 初始化一个新创建的 AjaxResult 对象
+     *
+     * @param code 状态码
+     * @param msg  返回内容
+     * @param data 数据对象
+     */
+    public AjaxResult(int code, String msg, Object data, boolean success) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.success = success;
+    }
+
+    /**
      * 返回成功消息
      *
      * @return 成功消息
@@ -79,7 +97,7 @@ public class AjaxResult {
      * @return 成功消息
      */
     public static AjaxResult success(String msg, Object data) {
-        return new AjaxResult(HttpStatus.SUCCESS, msg, data);
+        return new AjaxResult(HttpStatus.SUCCESS, msg, data, true);
     }
 
     /**
