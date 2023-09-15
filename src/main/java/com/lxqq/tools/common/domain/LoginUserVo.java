@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * @author QinQiang
  * @date 2023/9/14
- * @copyright：Copyright ® 掌控网络. All right reserved.
  **/
 @Data
 @Accessors(chain = true)
-public class User {
+public class LoginUserVo {
     private String username;
+    private String password;
     private List<String> roles;
     private String accessToken;
     private String refreshToken;

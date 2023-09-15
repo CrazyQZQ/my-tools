@@ -4,7 +4,6 @@ import cn.hutool.core.util.RandomUtil;
 import com.aspose.pdf.devices.PngDevice;
 import com.aspose.pdf.devices.Resolution;
 import com.aspose.words.Document;
-import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.SaveFormat;
 import com.lxqq.tools.common.constant.CommonConstant;
 import com.lxqq.tools.common.handler.file.FileConstants;
@@ -20,7 +19,6 @@ import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -46,6 +44,7 @@ public class PdfTransferService {
 
     /**
      * 图片转pdf
+     *
      * @param inputStream 输入流
      * @return 下载路径
      */
@@ -72,6 +71,7 @@ public class PdfTransferService {
 
     /**
      * word转pdf
+     *
      * @param inputStream 输入流
      * @return 下载路径
      */
@@ -100,6 +100,7 @@ public class PdfTransferService {
 
     /**
      * PDF 转其他文件
+     *
      * @param inputStream
      * @param type
      * @return
@@ -109,19 +110,19 @@ public class PdfTransferService {
 //        String checkType = FilenameUtils.getExtension(file.getOriginalFilename());
         try {
             switch (type.toUpperCase()) {
-                case "WORD" : {
+                case "WORD": {
                     return convertFile(inputStream, com.aspose.pdf.SaveFormat.DocX, "docx");
                 }
-                case "XML" : {
+                case "XML": {
                     return convertFile(inputStream, com.aspose.pdf.SaveFormat.PdfXml, "xml");
                 }
-                case "EXCEL" : {
+                case "EXCEL": {
                     return convertFile(inputStream, com.aspose.pdf.SaveFormat.Excel, "xlsx");
                 }
-                case "PPT" : {
+                case "PPT": {
                     return convertFile(inputStream, com.aspose.pdf.SaveFormat.Pptx, "pptx");
                 }
-                case "PNG" : {
+                case "PNG": {
                     // 图片类型的需要获取每一页PDF，一张一张转换
                     com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(inputStream);
                     //分辨率
@@ -137,19 +138,20 @@ public class PdfTransferService {
                     }
                     return res;
                 }
-                case "HTML" : {
+                case "HTML": {
                     String filePath = CommonConstant.TEMP_FOLD + "/" + RandomUtil.randomString(12) + ".html";
                     com.aspose.pdf.Document doc = new com.aspose.pdf.Document(inputStream);
                     com.aspose.pdf.HtmlSaveOptions saveOptions = new com.aspose.pdf.HtmlSaveOptions();
                     saveOptions.setFixedLayout(true);
                     saveOptions.setSplitIntoPages(false);
                     saveOptions.setRasterImagesSavingMode(com.aspose.pdf.HtmlSaveOptions.RasterImagesSavingModes.AsExternalPngFilesReferencedViaSvg);
-                    doc.save(filePath , saveOptions);
+                    doc.save(filePath, saveOptions);
                     doc.close();
                     res.add(upload(filePath));
                     return res;
                 }
-                default:{}
+                default: {
+                }
             }
         } catch (Exception e) {
             log.error("pdf convert to other file error: ", e);
@@ -169,7 +171,7 @@ public class PdfTransferService {
             resUrl.add(upload(filePath));
             long now = System.currentTimeMillis();
             log.info("共耗时：" + ((now - old) / 1000.0) + "秒");
-        }catch (IOException e) {
+        } catch (IOException e) {
             log.error("pdf convert to other file error: ", e);
         }
         return resUrl;
@@ -177,6 +179,7 @@ public class PdfTransferService {
 
     /**
      * 生成pdf临时路径
+     *
      * @return pdf临时路径
      */
     private String getTempPdfPath() {

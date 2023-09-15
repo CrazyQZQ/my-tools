@@ -6,7 +6,6 @@ import com.lxqq.tools.common.constant.HttpStatus;
 /**
  * @author QinQiang
  * @date 2023/9/14
- * @copyright：Copyright ® 掌控网络. All right reserved.
  **/
 public class ServiceException extends RuntimeException {
     private static final long serialVersionUID = -7924878864085184620L;

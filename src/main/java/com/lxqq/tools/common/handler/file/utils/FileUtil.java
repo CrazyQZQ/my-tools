@@ -16,12 +16,11 @@ public class FileUtil {
     public static void checkSuffix(FileSuffixEnum fileSuffixEnum, String fileName) {
         String suffix = FilenameUtils.getExtension(fileName);
         if (!fileSuffixEnum.suffix.equalsIgnoreCase(suffix)) {
-            throw new ServiceException("只支持"+ fileSuffixEnum.suffix + "类型的文件!");
+            throw new ServiceException("只支持" + fileSuffixEnum.suffix + "类型的文件!");
         }
     }
 
     /**
-     *
      * @param fileSuffixEnums
      * @param fileName
      */
@@ -30,7 +29,7 @@ public class FileUtil {
         boolean pass = fileSuffixEnums.stream().anyMatch(fileSuffixEnum -> fileSuffixEnum.suffix.equalsIgnoreCase(suffix));
         if (!pass) {
             List<String> list = fileSuffixEnums.stream().map(e -> e.suffix).collect(Collectors.toList());
-            throw new ServiceException("只支持"+ Joiner.on("、").join(list) + "类型的文件!");
+            throw new ServiceException("只支持" + Joiner.on("、").join(list) + "类型的文件!");
         }
     }
 }

@@ -1,18 +1,19 @@
 package com.lxqq.tools.controller;
 
+import cn.hutool.crypto.SecureUtil;
 import com.lxqq.tools.common.domain.AjaxResult;
+import com.lxqq.tools.common.domain.LoginUserVo;
 import com.lxqq.tools.common.domain.LoginVo;
 import com.lxqq.tools.common.domain.Route;
-import com.lxqq.tools.common.domain.User;
-import com.lxqq.tools.common.handler.file.FileSuffixEnum;
-import com.lxqq.tools.common.handler.file.utils.FileUtil;
+import com.lxqq.tools.system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -24,26 +25,17 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
 
     @PostMapping("login")
     public AjaxResult login(@RequestBody LoginVo loginVo) {
-        User user;
-        if ("admin".equals(loginVo.getUsername())) {
-            user = new User()
-                    .setUsername("admin")
-                    .setRoles(Collections.singletonList("admin"))
-                    .setAccessToken("eyJhbGciOiJIUzUxMiJ9.admin")
-                    .setRefreshToken("eyJhbGciOiJIUzUxMiJ9.adminRefresh")
-                    .setExpires("2023/10/30 00:00:00");
-        } else {
-            user = new User()
-                    .setUsername("common")
-                    .setRoles(Collections.singletonList("common"))
-                    .setAccessToken("eyJhbGciOiJIUzUxMiJ9.common")
-                    .setRefreshToken("eyJhbGciOiJIUzUxMiJ9.commonRefresh")
-                    .setExpires("2023/10/30 00:00:00");
+        LoginUserVo loginUserVo = userService.loadByUsername(loginVo.getUsername());
+        if (!SecureUtil.md5(loginVo.getPassword()).equals(loginUserVo.getPassword())) {
+            return AjaxResult.error("密码错误!");
         }
-        return AjaxResult.success(user);
+        return AjaxResult.success(loginUserVo);
     }
 
     @PostMapping("refreshToken")

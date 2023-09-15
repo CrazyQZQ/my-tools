@@ -91,7 +91,7 @@ public class MinIoFileProcessHandler implements FileProcessHandler {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
             // 设置存储对象名称
-            String objectName = subPath+ "/" + DateUtil.format(LocalDateTime.now(), "yyyy-MM-dd") + "/" + fileName;
+            String objectName = subPath + "/" + DateUtil.format(LocalDateTime.now(), "yyyy-MM-dd") + "/" + fileName;
             // 使用putObject上传一个文件到存储桶中
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .bucket(bucketName)
